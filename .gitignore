@@ -1,0 +1,9 @@
+node_modules/
+build/
+wtns/
+sample.json
+src/test.ts
+keys/
+temp/
+outputs/
+db/
