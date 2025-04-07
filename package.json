@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/server.ts"
+    "start": "ts-node src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +22,10 @@
     "typescript-eslint": "^8.22.0"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^5.1.0",
-    "sqlite3": "^5.1.7"
+    "pg": "^8.14.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.21"
   }
 }
