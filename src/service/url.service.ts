@@ -12,24 +12,15 @@ export class UrlService {
       id: id,
     });
 
-    return data?.id ?? null;
+    return data?.url ?? null;
   }
 
   public static async create(id: string, url: string) {
-    try {
-      if (id == null || url == null) {
-        throw { message: "Null data" };
-      }
-      if (url.trim().length == 0) {
-        throw { message: "Empty data" };
-      }
-      const data = await UrlService.urlRepo.create({
-        id: id,
-        url: url,
-      });
-      return data;
-    } catch (error) {
-      return error;
+    if (!id || !url || url.trim().length === 0) {
+      throw new Error("Invalid input data");
     }
+
+    const newUrl = UrlService.urlRepo.create({ id, url });
+    return await UrlService.urlRepo.save(newUrl);
   }
 }

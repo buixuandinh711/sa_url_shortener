@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import { urlRouter } from "./routes";
 import { AppDataSource } from "./utils/database.connector";
+import { urlController } from "./controllers";
 
 dotenv.config();
 
@@ -12,17 +12,18 @@ AppDataSource.initialize()
   .catch((err) => {
     console.log(err);
   });
+
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
 
 // ROUTES
-
-app.use("/api/v1/url", urlRouter);
+app.use("/", urlController);
 app.get("/api/v1/health", async (_, res) => {
   res.json({
     status: "success",
   });
 });
+
 app.listen(PORT, (error) => {
   if (!error) {
     console.log("List route " + app._router);

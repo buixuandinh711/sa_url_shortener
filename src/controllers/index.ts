@@ -1,1 +1,1 @@
-export * from "./url.controller";
+export { default as urlController } from "./url.controller";
