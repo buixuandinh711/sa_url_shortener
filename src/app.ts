@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { AppDataSource } from "./utils/database.connector";
 import { urlController } from "./controllers";
 
@@ -15,6 +16,9 @@ AppDataSource.initialize()
 
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
+
+app.use(cors());
+app.use(express.json());
 
 // ROUTES
 app.use("/", urlController);

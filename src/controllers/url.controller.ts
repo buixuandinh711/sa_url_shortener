@@ -7,7 +7,12 @@ const router = Router();
 router.post("/create/", async (req: Request, res: Response) => {
   let found_flag = 0;
   let dataId = null;
-  const url = req.query?.url ?? null;
+  const url = req.body?.url ?? null;
+
+  if (!url || typeof url !== "string") {
+    res.status(400).json("Missing or invalid 'url' in request body");
+    return;
+  }
 
   do {
     const newID = makeID(5);
@@ -27,8 +32,11 @@ router.post("/create/", async (req: Request, res: Response) => {
     break;
   } while (found_flag < 10);
 
-  if (dataId == null) res.status(400).send("Run out of Id");
-  else res.status(201).send(`http://127.0.0.1:3000/${dataId}`);
+  if (dataId == null) {
+    res.status(400).send("Run out of Id");
+  } else {
+    res.status(201).json({ shortUrl: `http://127.0.0.1:3000/${dataId}` });
+  }
 });
 
 router.get("/:id", async (req: Request, res: Response) => {

@@ -18,7 +18,7 @@ export default function URLShortener() {
 
     try {
       // Make a request to your backend API
-      const response = await fetch("http://localhost:3000/api/shorten", {
+      const response = await fetch("http://localhost:3000/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
