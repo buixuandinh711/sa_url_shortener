@@ -55,7 +55,7 @@ export default function URLShortener() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+      <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-md">
         <h1 className="text-2xl font-bold text-center mb-6 text-blue-600">
           URL Shortener
         </h1>
@@ -92,19 +92,27 @@ export default function URLShortener() {
             <p className="text-sm font-medium text-gray-700 mb-1">
               Your shortened URL:
             </p>
-            <div className="flex">
+            <div className="flex space-x-2">
               <input
                 type="text"
                 value={shortUrl}
                 readOnly
-                className="flex-grow p-2 border border-gray-300 rounded-l-md bg-white"
+                className="flex-grow p-2 border border-gray-300 rounded-md bg-white"
               />
               <button
                 onClick={copyToClipboard}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 rounded-r-md border border-l-0 border-gray-300"
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 rounded-md border border-gray-300"
               >
                 {copied ? "Copied!" : "Copy"}
               </button>
+              <a
+                href={shortUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-md flex items-center justify-center"
+              >
+                Go to
+              </a>
             </div>
           </div>
         )}
