@@ -14,6 +14,12 @@ router.post("/create/", async (req: Request, res: Response) => {
     return;
   }
 
+  const isExist = await UrlService.validateExistance(url);
+  if (isExist) {
+    res.status(400).json("Url already exists");
+    return;
+  }
+
   do {
     const newID = makeID(5);
     const originUrl = await UrlService.getById(newID);
@@ -25,6 +31,7 @@ router.post("/create/", async (req: Request, res: Response) => {
       originUrl?.trim()?.length
     ) {
       found_flag += 1;
+      continue;
     }
 
     await UrlService.create(newID, url as string);

@@ -15,6 +15,17 @@ export class UrlService {
     return data?.url ?? null;
   }
 
+  public static async validateExistance(url: string | null) {
+    if (url == null) {
+      return false;
+    }
+    const data_exist = await UrlService.urlRepo.exists({
+      where: { url },
+    });
+
+    return data_exist;
+  }
+
   public static async create(id: string, url: string) {
     if (!id || !url || url.trim().length === 0) {
       throw new Error("Invalid input data");
