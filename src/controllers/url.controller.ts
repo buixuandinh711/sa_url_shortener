@@ -5,8 +5,6 @@ import { makeID } from "../utils/helper";
 const router = Router();
 
 router.post("/create/", async (req: Request, res: Response) => {
-  let found_flag = 0;
-  let dataId = null;
   const url = req.body?.url ?? null;
 
   if (!url || typeof url !== "string") {
@@ -14,8 +12,10 @@ router.post("/create/", async (req: Request, res: Response) => {
     return;
   }
 
+  let found_flag = 0;
+  let dataId = null;
   do {
-    const newID = makeID(5);
+    const newID = makeID(url, found_flag);
     const originUrl = await UrlService.getById(newID);
 
     if (

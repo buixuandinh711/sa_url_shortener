@@ -1,14 +1,10 @@
-function makeID(length: number): string {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  let counter = 0;
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-  return result;
+import { createHash } from "crypto";
+
+function makeID(input: string, salt: number): string {
+  const saltedInput = `${input}${salt}`;
+  const hashBuffer = createHash("sha3-256").update(saltedInput).digest();
+  const truncated = hashBuffer.subarray(0, 12); // 12 bytes = 96 bits
+  return truncated.toString("base64url"); // URL-safe and shorter than regular base64
 }
 
 export { makeID };
