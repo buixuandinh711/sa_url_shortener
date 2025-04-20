@@ -6,6 +6,5 @@ src/test.ts
 keys/
 temp/
 outputs/
-db/
 .env
 .vscode/
