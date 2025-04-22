@@ -5,7 +5,7 @@ export const AppDataSource = new DataSource({
   ...config,
   type: "postgres",
   synchronize: true,
-  logging: true,
+  logging: ["error", "warn"],
   subscribers: [],
   migrations: [],
   entities: ["src/models/*.ts"],
