@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 
 @Entity()
-@Unique(["url"])
+// @Unique(["url"])
 export class ShortURL {
   @PrimaryColumn({ type: "text" })
   public id!: string;
