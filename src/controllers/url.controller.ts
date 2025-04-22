@@ -25,7 +25,6 @@ router.post("/create/", async (req: Request, res: Response) => {
       originUrl?.trim()?.length
     ) {
       found_flag += 1;
-      continue;
     }
 
     await UrlService.create(newID, url as string);
