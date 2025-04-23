@@ -1,5 +1,6 @@
 import { ShortURL } from "../models/url.model";
 import { AppDataSource } from "../utils/database.connector";
+import { redis } from "../utils/redis.connector";
 
 export class UrlService {
   private static readonly urlRepo = AppDataSource.getRepository(ShortURL);
@@ -8,10 +9,18 @@ export class UrlService {
     if (id == null) {
       return undefined;
     }
+
+    const cacheKey = `url:${id}`;
+    const cachedUrl = await redis.get(cacheKey);
+    if (cachedUrl) {
+      return cachedUrl;
+    }
     const data = await UrlService.urlRepo.findOneBy({
       id: id,
     });
-
+    if (data) {
+      await redis.set(cacheKey, data.url);
+    }
     return data?.url ?? null;
   }
 
@@ -32,6 +41,10 @@ export class UrlService {
     }
 
     const newUrl = UrlService.urlRepo.create({ id, url });
+    const cacheKey = `url:${id}`;
+    if (newUrl) {
+      await redis.set(cacheKey, newUrl.url);
+    }
     return await UrlService.urlRepo.save(newUrl);
   }
 }

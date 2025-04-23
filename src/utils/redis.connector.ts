@@ -1,11 +1,6 @@
 import config from "../configs/redis.config";
-import { createClient } from 'redis';
+import { Redis } from "ioredis";
 
-export const redis = createClient({
-  url: `redis://${config.host}:${config.port}`,
+export const redis = new Redis(config.port, config.host, {
   password: config.password,
-  // socket: {
-  //   host: config.host,
-  //   port: config.port,
-  // },
 });

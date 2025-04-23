@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import { AppDataSource } from "./utils/database.connector";
+import { redis } from "./utils/redis.connector";
 import { urlController } from "./controllers";
 import path from "path";
 
@@ -15,6 +16,15 @@ AppDataSource.initialize()
     console.log(err);
   });
 
+redis.on("connect", () => {
+  console.log("Redis client connected");
+});
+redis.on("error", (err: Error) => {
+  console.log("Redis error: ", err);
+});
+redis.on("ready", () => { 
+  console.log("Redis client is ready to use");
+});
 const PORT = process.env.APP_PORT || 8080;
 const app = express();
 
