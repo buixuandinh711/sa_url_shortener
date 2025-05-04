@@ -22,7 +22,7 @@ redis.on("connect", () => {
 redis.on("error", (err: Error) => {
   console.log("Redis error: ", err);
 });
-redis.on("ready", () => { 
+redis.on("ready", () => {
   console.log("Redis client is ready to use");
 });
 const PORT = process.env.APP_PORT || 8080;

@@ -7,7 +7,7 @@ const router = Router();
 router.post("/create/", async (req: Request, res: Response) => {
   const url = req.body?.url ?? null;
 
-  if (!url || typeof url !== "string") {
+  if (!url || typeof url !== "string" || url.trim().length === 0) {
     res.status(400).json("Missing or invalid 'url' in request body");
     return;
   }
@@ -15,21 +15,28 @@ router.post("/create/", async (req: Request, res: Response) => {
   let found_flag = 0;
   let dataId = null;
   do {
-    const newID = makeID(url, found_flag);
-    const originUrl = await UrlService.getById(newID);
+    const createdId = makeID(url, found_flag);
+    const originUrl = await UrlService.getById(createdId);
 
-    if (
-      originUrl !== undefined &&
-      originUrl !== null &&
-      (originUrl ?? "")?.length > 0 &&
-      originUrl?.trim()?.length
-    ) {
-      found_flag += 1;
+    if (originUrl !== undefined && originUrl !== null) {
+      if (originUrl === url) {
+        dataId = createdId;
+        break;
+      } else {
+        found_flag += 1;
+        continue;
+      }
     }
 
-    await UrlService.create(newID, url as string);
-    dataId = newID;
-    break;
+    try {
+      await UrlService.create(createdId, url as string);
+      dataId = createdId;
+      break;
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("Failed to store URL");
+      return;
+    }
   } while (found_flag < 10);
 
   if (dataId == null) {
