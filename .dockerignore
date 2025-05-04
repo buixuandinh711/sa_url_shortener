@@ -1,0 +1,30 @@
+# Node modules and dependencies
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Docker-related
+Dockerfile
+.dockerignore
+
+# Git and environment files
+.git
+.gitignore
+.env
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# Optional build output
+dist
+build
+coverage
+
+# Frontend
+fe/node_modules
+fe/npm-debug.log
+fe/.env
+fe/.DS_Store
+fe/dist
