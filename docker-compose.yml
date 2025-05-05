@@ -3,7 +3,7 @@ services:
     build: .
     container_name: express-app-1
     ports:
-      - "3001:${APP_PORT}"
+      - "8080:8080"
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -15,34 +15,6 @@ services:
     networks:
       - url_shortener_net
 
-  express-app-2:
-    build: .
-    container_name: express-app-2
-    ports:
-      - "3002:${APP_PORT}"
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-    env_file:
-      - .env
-    environment:
-      - NODE_ENV=development
-    command: npm start
-    networks:
-      - url_shortener_net
-
-  nginx:
-    image: nginx:1.23
-    container_name: nginx
-    ports:
-      - "8080:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    networks:
-      - url_shortener_net
-    depends_on:
-      - express-app-1
-      - express-app-2
 
 networks:
   url_shortener_net:
