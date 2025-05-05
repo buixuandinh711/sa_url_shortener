@@ -8,6 +8,8 @@ export default function URLShortener() {
   const [copied, setCopied] = useState(false);
 
   const shortenUrl = async () => {
+    console.log("Button clicked");
+
     if (!originalUrl) {
       setError("Please enter a URL");
       return;
@@ -18,7 +20,7 @@ export default function URLShortener() {
 
     try {
       // Make a request to your backend API
-      const response = await fetch("http://localhost:3000/create", {
+      const response = await fetch("http://localhost:8080/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -42,7 +42,7 @@ router.post("/create/", async (req: Request, res: Response) => {
   if (dataId == null) {
     res.status(400).send("Run out of Id");
   } else {
-    res.status(201).json({ shortUrl: `http://127.0.0.1:3000/${dataId}` });
+    res.status(201).json({ shortUrl: `http://127.0.0.1:8080/${dataId}` });
   }
 });
 

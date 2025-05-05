@@ -11,7 +11,7 @@ services:
       - pg-primary-archive:/var/lib/postgresql/archive
       - ./primary/init:/docker-entrypoint-initdb.d
     networks:
-      - pg-net
+      - url_shortener_net
     ports:
       - "5433:5432"
 
@@ -27,7 +27,7 @@ services:
       - pg-standby1-data:/var/lib/postgresql/data
       - ./standby/init:/docker-entrypoint-initdb.d
     networks:
-      - pg-net
+      - url_shortener_net
     ports:
       - "5435:5432"
 
@@ -43,7 +43,7 @@ services:
       - pg-standby2-data:/var/lib/postgresql/data
       - ./standby/init:/docker-entrypoint-initdb.d
     networks:
-      - pg-net
+      - url_shortener_net
     ports:
       - "5436:5432"
 
@@ -65,7 +65,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - pg-net
+      - url_shortener_net
     depends_on:
       - primary
       - standby1
@@ -78,4 +78,5 @@ volumes:
   pg-standby2-data:
 
 networks:
-  pg-net:
+  url_shortener_net:
+    external: true
