@@ -10,17 +10,17 @@ export class UrlService {
       return undefined;
     }
 
-    const cacheKey = `url:${id}`;
-    const cachedUrl = await redis.get(cacheKey);
-    if (cachedUrl) {
-      return cachedUrl;
-    }
+    // const cacheKey = `url:${id}`;
+    // const cachedUrl = await redis.get(cacheKey);
+    // if (cachedUrl) {
+    //   return cachedUrl;
+    // }
     const data = await UrlService.urlRepo.findOneBy({
       id: id,
     });
-    if (data) {
-      await redis.set(cacheKey, data.url);
-    }
+    // if (data) {
+    //   await redis.set(cacheKey, data.url);
+    // }
     return data?.url ?? null;
   }
 
@@ -41,10 +41,10 @@ export class UrlService {
     }
 
     const newUrl = UrlService.urlRepo.create({ id, url });
-    const cacheKey = `url:${id}`;
-    if (newUrl) {
-      await redis.set(cacheKey, newUrl.url);
-    }
+    // const cacheKey = `url:${id}`;
+    // if (newUrl) {
+    //   await redis.set(cacheKey, newUrl.url);
+    // }
     return await UrlService.urlRepo.save(newUrl);
   }
 }
