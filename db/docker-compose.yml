@@ -1,7 +1,7 @@
 services:
-  primary:
+  primary-main:
     image: postgres:15
-    container_name: pg-primary
+    container_name: pg-primary-main
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -9,73 +9,73 @@ services:
     volumes:
       - pg-primary-data:/var/lib/postgresql/data
       - pg-primary-archive:/var/lib/postgresql/archive
-      - ./primary/init:/docker-entrypoint-initdb.d
+      # - ./primary/init:/docker-entrypoint-initdb.d
     networks:
       - url_shortener_net
     ports:
-      - "5433:5432"
+      - "5434:5432"
 
-  standby1:
-    image: postgres:15
-    container_name: pg-standby1
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    depends_on:
-      - primary
-    volumes:
-      - pg-standby1-data:/var/lib/postgresql/data
-      - ./standby/init:/docker-entrypoint-initdb.d
-    networks:
-      - url_shortener_net
-    ports:
-      - "5435:5432"
+  # standby1:
+  #   image: postgres:15
+  #   container_name: pg-standby1
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #   depends_on:
+  #     - primary
+  #   volumes:
+  #     - pg-standby1-data:/var/lib/postgresql/data
+  #     - ./standby/init:/docker-entrypoint-initdb.d
+  #   networks:
+  #     - url_shortener_net
+  #   ports:
+  #     - "5435:5432"
 
-  standby2:
-    image: postgres:15
-    container_name: pg-standby2
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    depends_on:
-      - primary
-    volumes:
-      - pg-standby2-data:/var/lib/postgresql/data
-      - ./standby/init:/docker-entrypoint-initdb.d
-    networks:
-      - url_shortener_net
-    ports:
-      - "5436:5432"
+  # standby2:
+  #   image: postgres:15
+  #   container_name: pg-standby2
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgres
+  #   depends_on:
+  #     - primary
+  #   volumes:
+  #     - pg-standby2-data:/var/lib/postgresql/data
+  #     - ./standby/init:/docker-entrypoint-initdb.d
+  #   networks:
+  #     - url_shortener_net
+  #   ports:
+  #     - "5436:5432"
 
-  pgpool:
-    image: bitnami/pgpool:4
-    container_name: pg-pgpool
-    environment:
-      - PGPOOL_ADMIN_USERNAME=admin
-      - PGPOOL_ADMIN_PASSWORD=admin
-      - PGPOOL_BACKEND_NODES=0:pg-primary:5432,1:pg-standby1:5432,2:pg-standby2:5432
-      - PGPOOL_SR_CHECK_USER=postgres
-      - PGPOOL_SR_CHECK_PASSWORD=postgres
-      - PGPOOL_ENABLE_LDAP=no
-      - PGPOOL_POSTGRES_USERNAME=postgres
-      - PGPOOL_POSTGRES_PASSWORD=postgres
-      - PGPOOL_ENABLE_LOAD_BALANCING=yes
-      - PGPOOL_NUM_INIT_CHILDREN=32
-      - PGPOOL_HEALTH_CHECK_PERIOD=10
-    ports:
-      - "5432:5432"
-    networks:
-      - url_shortener_net
-    depends_on:
-      - primary
-      - standby1
-      - standby2
+  # pgpool:
+  #   image: bitnami/pgpool:4
+  #   container_name: pg-pgpool
+  #   environment:
+  #     - PGPOOL_ADMIN_USERNAME=admin
+  #     - PGPOOL_ADMIN_PASSWORD=admin
+  #     - PGPOOL_BACKEND_NODES=0:pg-primary:5432,1:pg-standby1:5432,2:pg-standby2:5432
+  #     - PGPOOL_SR_CHECK_USER=postgres
+  #     - PGPOOL_SR_CHECK_PASSWORD=postgres
+  #     - PGPOOL_ENABLE_LDAP=no
+  #     - PGPOOL_POSTGRES_USERNAME=postgres
+  #     - PGPOOL_POSTGRES_PASSWORD=postgres
+  #     - PGPOOL_ENABLE_LOAD_BALANCING=yes
+  #     - PGPOOL_NUM_INIT_CHILDREN=32
+  #     - PGPOOL_HEALTH_CHECK_PERIOD=10
+  #   ports:
+  #     - "5432:5432"
+  #   networks:
+  #     - url_shortener_net
+  #   depends_on:
+  #     - primary
+  #     - standby1
+  #     - standby2
 
 volumes:
   pg-primary-data:
   pg-primary-archive:
-  pg-standby1-data:
-  pg-standby2-data:
+  # pg-standby1-data:
+  # pg-standby2-data:
 
 networks:
   url_shortener_net:
